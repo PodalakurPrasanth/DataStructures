@@ -95,4 +95,26 @@ class ViewController: UIViewController {
         print("After  swapping: a = \(a), b = \(b)")
     }
 }
-
+public class Box<T> {
+    public typealias Listener = (T) ->Void
+    public var listener:Listener?
+    public var value: T {
+        didSet{
+            listener?(value)
+        }
+    }
+    
+    public init(_ value: T){
+        self.value = value
+    }
+    
+    public func bind(listener: Listener?){
+        self.listener = listener
+    }
+    
+    @objc public func didTap(_ sender: UIControl){
+        if let sender = sender as? T {
+            self.value = sender
+        }
+    }
+}
